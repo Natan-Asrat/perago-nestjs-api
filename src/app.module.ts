@@ -1,31 +1,22 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
-import { UserEntity } from './entities/user.entity';
-import { PhotoEntity } from './entities/photo.entity';
-
+import { Employee } from './employee/entities/employee.entity';
+import { EmployeeModule } from './employee/employee.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'postgres',
+      type: 'postgres', 
       host: 'localhost',
       port: 5432,
       username: 'postgres',
-      password: 'root',
-      database: 'orga_structure',
-      entities: [UserEntity, PhotoEntity],
+      password: 'nate',
+      database: 'employee_db',
+      entities: [Employee],
       synchronize: true,
     }),
+    EmployeeModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
-export class AppModule {
-  constructor(private dataSource: DataSource) {
-console.log(dataSource.toString())
-
-  }
-
-}
+export class AppModule {}
